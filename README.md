@@ -6,7 +6,7 @@ Hi, This is a beginner project i did at Hyper Island where im currently studiyin
 
 <img width="200" height="250" alt="Screenshot 2023-11-05 at 22 14 52" src="https://github.com/OskarSollenberg/fed25-fundamentals-mtv/assets/122973984/5733d3d4-3de9-46c0-bd3b-e6ab8fa9f561">
 
-<img width="300"  height="250" alt="Screenshot 2023-11-09 at 19 57 08" src="https://github.com/OskarSollenberg/ITTT---Hangman-ver2/assets/122973984/0193d562-6e4c-4439-829c-843eaf69e189">
+<img width="400"  height="250" alt="Screenshot 2023-11-09 at 19 57 08" src="https://github.com/OskarSollenberg/ITTT---Hangman-ver2/assets/122973984/0193d562-6e4c-4439-829c-843eaf69e189">
 
 <img width="200" height="250" alt="Screenshot 2023-11-05 at 22 15 28" src="https://github.com/OskarSollenberg/fed25-fundamentals-mtv/assets/122973984/cde8578a-b823-400e-9a2d-e9f6b4aa6495">
 
