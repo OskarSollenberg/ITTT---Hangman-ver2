@@ -49,6 +49,8 @@ Hi, This is a beginner project i did at Hyper Island where im currently studiyin
 
 -   Responsiveness using HTML, CSS and Javascript.
 
+-   Recording and implementing audio in a Web-Game.
+
 <!--STRAT_SECTION:code-->
 
 <br>
