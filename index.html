@@ -10,21 +10,24 @@
             href="https://fonts.googleapis.com/css2?family=Patrick+Hand+SC&display=swap"
             rel="stylesheet"
         />
-
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css"
-        />
-
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
             href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap"
             rel="stylesheet"
+        />
+
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css"
         />
 
         <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/bootstrap.min.js"></script>
@@ -34,17 +37,13 @@
         <link rel="stylesheet" href="style.css" />
         <title>Hangman</title>
     </head>
-    <div id="pyro" class="">
-        <div class="before"></div>
-        <div class="after"></div>
-    </div>
     <body>
+        <div id="pyro" class="">
+            <div class="before"></div>
+            <div class="after"></div>
+        </div>
         <main class="main">
-            <div class="wrapper || animated" id="card">
-                <button class="btn" id="btn">PLAY</button>
-                <button class="btn display--none" id="playAgainBtn">
-                    PLAY AGAIN
-                </button>
+            <div>
                 <p class="letter animated">A</p>
                 <p class="letter animated">B</p>
                 <p class="letter animated">C</p>
@@ -74,17 +73,36 @@
                 <!-- <p class="letter animated">Å</p> -->
                 <!-- <p class="letter animated">Ä</p> -->
                 <!-- <p class="letter animated">Ö</p> -->
+            </div>
+            <div class="wrapper" id="card">
+                <button class="btn" id="btn">PLAY</button>
+                <button class="btn || display--none" id="playAgainBtn">
+                    PLAY AGAIN
+                </button>
+                <input
+                    maxlength="1"
+                    class="input || display--none animated"
+                    type="text"
+                    id="userInput"
+                    placeholder="..."
+                />
                 <p id="lives" class="lives livesAnimation animated">
                     ♥️ = <span id="life">5</span>
                 </p>
 
                 <p class="answer" id="answer"></p>
-                <div class="content__wrapper">
-                    <img class="img visable" src="images/guy.png" />
+                <div class="content__wrapper animated">
+                    <img class="img visable animated" src="images/guy.png" />
                     <img class="img" src="images/rope.png" />
-                    <img class="img visable" src="images/mid.png" />
-                    <img class="img visable" src="images/horizontal.png" />
-                    <img class="img visable" src="images/vertical.png" />
+                    <img class="img visable animated" src="images/mid.png" />
+                    <img
+                        class="img visable animated"
+                        src="images/horizontal.png"
+                    />
+                    <img
+                        class="img visable animated"
+                        src="images/vertical.png"
+                    />
                     <img class="img__ground" src="images/ground.png" />
                     <h1 class="title">HANGMAN</h1>
                 </div>
