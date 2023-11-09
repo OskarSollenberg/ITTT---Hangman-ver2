@@ -3,38 +3,29 @@
 import { words } from "./words.js";
 
 // ANIMATIONS
-const pyro = document.getElementById("pyro");
+const winningAnimation = document.getElementById("pyro");
 
 // LIVES
 const lives = document.getElementById("life");
-const livesAnimation = document.querySelector(".livesAnimation");
-const liveForToggleVisability = document.getElementById("lives");
+const livesAndHeart = document.querySelector(".lives");
 
 // BUTTONS
-const playAgain = document.getElementById("playAgain");
-const btn = document.getElementById("btn");
 const playBtn = document.getElementById("btn");
+const playAgainBtn = document.getElementById("playAgainBtn");
 
-// IMAGES-------
-const vertical = document.getElementById("img__ver");
-const horizontal = document.getElementById("img__hor");
-const mid = document.getElementById("img__mid");
-const rope = document.getElementById("img__rope");
-const guy = document.getElementById("img__guy");
-const allImagesNotGround = document.querySelectorAll(".img");
+// IMAGES
+const images = document.querySelectorAll(".img");
 
-const letters = document.querySelectorAll(".letter");
-// const singleLetter = document.querySelector(".letters");
+// LETTERS
+const allLetters = document.querySelectorAll(".letter");
 
 // EXECUTIONS AND IF STATEMENTS
-let numOfIncorrectGuesses = 0;
 let numOfcorrecGuesses = 0;
-let livesLeft = 0;
+let numbOflivesLeft = 5;
 
 // ARRAYS
-let images = [vertical, horizontal, mid, rope, guy];
-let wordArr = [1, 2, 3, 4, 5];
-wordArr = [];
+let underlinesArr = [1, 2, 3, 4, 5];
+underlinesArr = [];
 
 let word = "";
 function randWord() {
@@ -42,24 +33,24 @@ function randWord() {
     word = word.toUpperCase();
     return word;
 }
+randWord();
+console.log(word);
 
 //--------------
 function loopThroughArrAndAddClass(element, className) {
-    for (let i = 0; i < letters.length; i++) {
+    for (let i = 0; i < allLetters.length; i++) {
         element[i].classList.add(className);
     }
 }
+function randomlyPositionArrItems(array) {
+    for (let i = 0; i < allLetters.length; i++) {
+        let top = Math.floor(Math.random() * 70) + 10;
+        let left = Math.floor(Math.random() * 70) + 10;
 
-function randomelyPositionArrItemsIn(array) {
-    for (let i = 0; i < letters.length; i++) {
-        let top = Math.floor(Math.random() * 80) + 10;
-        let left = Math.floor(Math.random() * 80) + 10;
-
-        array[i].style.top = top + "vh";
-        array[i].style.left = left + "vw";
+        array[i].style.trasition = top + "%";
+        array[i].style.transform = left + "%";
     }
 }
-
 function addAnimation(variable, animation) {
     variable.classList.add(animation);
 }
@@ -72,81 +63,98 @@ function addClass(element, className) {
 function removeClass(element, className) {
     element.classList.remove(className);
 }
-function refreshPageOnclickToPlay(element) {
+function refreshPageOnclickToPlayAgain(element) {
     element.addEventListener("click", function () {
         location.reload();
     });
 }
+
 // ONE-TIME-USE FUNCTIONS
 function createUnderlines() {
     for (let i = 0; i < word.length; i++) {
-        wordArr.push(" _ ");
+        underlinesArr.push(" _ ");
     }
 }
-function updateUnderlineString() {
-    answer.innerHTML = wordArr.join("");
+function replaceUnderlinesIfCorrectAnswers() {
+    answer.innerHTML = underlinesArr.join("");
 }
-function updateNumberOfLives() {
-    lives.innerHTML = livesLeft;
+function updateNumbOflivesLeft() {
+    lives.innerHTML = numbOflivesLeft;
+}
+function displayCondition(condition) {
+    if (condition === "win") {
+        underlinesArr = ["YOU WIN!!"];
+        replaceUnderlinesIfCorrectAnswers();
+    } else if (condition === "win") {
+        underlinesArr = ["YOU LOOSE!!"];
+        replaceUnderlinesIfCorrectAnswers();
+    }
 }
 
 // PLAY BTN / RESET GAMEBOARD
 playBtn.addEventListener("click", clickToPlay);
-randWord();
 function clickToPlay() {
     removeClass(images[0], "visable");
-    removeClass(images[1], "visable");
     removeClass(images[2], "visable");
+    removeClass(images[3], "visable");
     removeClass(images[4], "visable");
-    addClass(liveForToggleVisability, "visable");
-    addClass(btn, "display--none");
+
+    addClass(livesAndHeart, "visable");
+    addClass(playBtn, "display--none");
 
     createUnderlines();
-    updateUnderlineString();
-    loopThroughArrAndAddClass(letters, "visable");
-    randomelyPositionArrItemsIn(letters);
+    replaceUnderlinesIfCorrectAnswers();
+    loopThroughArrAndAddClass(allLetters, "visable");
+    randomlyPositionArrItems(allLetters);
 }
 
-for (let i = 0; i < letters.length; i++) {
-    letters[i].addEventListener("click", function () {
-        let letterValue = letters[i].textContent;
-        addClass(letters[i], "display--none");
-        //
-        if (word.includes(letterValue))
-            for (let i = 0; i < word.length; i++) {
-                if (word[i] === letterValue) {
-                    wordArr[i] = word[i];
-                    numOfcorrecGuesses++;
-                    updateUnderlineString();
-
-                    if (numOfcorrecGuesses === word.length) {
-                        loopThroughArrAndAddClass(letters, "display--none");
-                        removeClass(playAgain, "display--none");
-                        addClass(pyro, "pyro");
-                        wordArr = ["YOU WIN!!"];
-                        updateUnderlineString();
-                        refreshPageOnclickToPlay(playAgain);
+// IF STATEMENTS
+function executeIfStatements() {
+    for (let i = 0; i < allLetters.length; i++) {
+        allLetters[i].addEventListener("click", function () {
+            let guessedLetter = allLetters[i].textContent;
+            addClass(allLetters[i], "display--none");
+            ////
+            ////
+            if (word.includes(guessedLetter))
+                for (let i = 0; i < word.length; i++) {
+                    if (word[i] === guessedLetter) {
+                        underlinesArr[i] = word[i];
+                        numOfcorrecGuesses++;
+                        replaceUnderlinesIfCorrectAnswers();
+                        ////
+                        ////
+                        if (numOfcorrecGuesses === word.length) {
+                            loopThroughArrAndAddClass(
+                                allLetters,
+                                "display--none"
+                            );
+                            removeClass(playAgainBtn, "display--none");
+                            addClass(winningAnimation, "pyro");
+                            displayCondition("win");
+                            refreshPageOnclickToPlayAgain(playAgainBtn);
+                        }
                     }
                 }
+            ////
+            ////
+            else {
+                addClass(images[numbOflivesLeft - 1], "visable");
+                addAnimation(livesAndHeart, "wobble");
+                setTimeout(resetAnimation, 1000, livesAndHeart, "wobble");
+                numbOflivesLeft--;
+                updateNumbOflivesLeft();
+                ////
+                ////
+                if (numbOflivesLeft === 0) {
+                    loopThroughArrAndAddClass(allLetters, "display--none");
+                    removeClass(images[1], "visable");
+                    removeClass(playAgainBtn, "display--none");
+                    displayCondition("loose");
+                    refreshPageOnclickToPlayAgain(playAgainBtn);
+                }
             }
-        else {
-            addClass(images[numOfIncorrectGuesses], "visable");
-            addAnimation(livesAnimation, "wobble");
-            setTimeout(resetAnimation, 1000, livesAnimation, "wobble");
-
-            numOfIncorrectGuesses++;
-            livesLeft = 5 - numOfIncorrectGuesses;
-            updateNumberOfLives();
-
-            if (numOfIncorrectGuesses > 4) {
-                loopThroughArrAndAddClass(letters, "display--none");
-                removeClass(images[numOfIncorrectGuesses - 2], "visable");
-                removeClass(playAgain, "display--none");
-
-                wordArr = ["YOU LOOSE!!"];
-                updateUnderlineString();
-                refreshPageOnclickToPlay(playAgain);
-            }
-        }
-    });
+        });
+    }
 }
+executeIfStatements();
