@@ -22,6 +22,13 @@ const input = document.getElementById("userInput");
 
 const screenWidth = window.innerWidth;
 
+// AUDIO
+var popAudio = new Audio("audio/pop.wav");
+var incorrectAudio = new Audio("audio/wrong.m4a");
+var correctAudio = new Audio("audio/woho.m4a");
+var sadMusic = new Audio("audio/sadMusic.mp3");
+var winningMusic = new Audio("audio/winningMusic.mp3");
+
 // EXECUTIONS AND IF STATEMENTS
 let numOfcorrecGuesses = 0;
 let numbOflivesLeft = 5;
@@ -63,7 +70,6 @@ function randomlyPositionArrItems(array) {
         array[i].style.left = leftPercentage + "vw";
     }
 }
-
 function addAnimation(variable, animation) {
     variable.classList.add(animation);
 }
@@ -100,9 +106,20 @@ function updateNumbOflivesLeft() {
 function displayCondition(condition) {
     if (condition === "win") {
         underlinesArr = ["YOU WIN!!"];
+        winningMusic.play();
+        addClass(input, "display--none");
+        removeClass(playAgainBtn, "display--none");
+        addClass(winningAnimation, "pyro");
         replaceUnderlinesIfCorrectAnswers();
+        ////
+        ////
     } else if (condition === "loose") {
         underlinesArr = ["YOU LOOSE!!"];
+        sadMusic.play();
+        loopThroughArrAndAddClass(allLetters, "display--none");
+        removeClass(images[1], "visable");
+        removeClass(playAgainBtn, "display--none");
+        addAnimation(livesAndHeart, "animate__hinge");
         replaceUnderlinesIfCorrectAnswers();
     }
 }
@@ -113,38 +130,44 @@ function guessedBefore(element) {
         return false;
     }
 }
-
 playBtn.addEventListener("click", function () {
     var node = this;
-    addAnimation(images[0], "bounceOut");
-    addAnimation(images[2], "bounceOut");
-    addAnimation(images[3], "bounceOut");
-    addAnimation(images[4], "bounceOut");
-    ////
-    ////
+
+    popAudio.play();
     setTimeout(function () {
-        node.classList.remove("open");
-        createUnderlines();
-        replaceUnderlinesIfCorrectAnswers();
-        resetAnimation(images[0], "bounceOut");
-        resetAnimation(images[2], "bounceOut");
-        resetAnimation(images[3], "bounceOut");
-        resetAnimation(images[4], "bounceOut");
-        removeClass(images[0], "visable");
-        removeClass(images[2], "visable");
-        removeClass(images[3], "visable");
-        removeClass(images[4], "visable");
+        addAnimation(playBtn, "bounceOut");
+        addAnimation(images[0], "bounceOut");
+        addAnimation(images[2], "bounceOut");
+        addAnimation(images[3], "bounceOut");
+        addAnimation(images[4], "bounceOut");
+        ////
+        ////
+        setTimeout(function () {
+            node.classList.remove("open");
+            createUnderlines();
+            replaceUnderlinesIfCorrectAnswers();
+            resetAnimation(images[0], "bounceOut");
+            resetAnimation(images[2], "bounceOut");
+            resetAnimation(images[3], "bounceOut");
+            resetAnimation(images[4], "bounceOut");
+            removeClass(images[0], "visable");
+            removeClass(images[2], "visable");
+            removeClass(images[3], "visable");
+            removeClass(images[4], "visable");
 
-        addClass(livesAndHeart, "visable");
-        addClass(playBtn, "display--none");
+            addAnimation(livesAndHeart, "animate__flash");
 
-        if (screenWidth > 900) {
-            loopThroughArrAndAddClass(allLetters, "visable");
-            randomlyPositionArrItems(allLetters);
-        } else {
-            removeClass(input, "display--none");
-        }
-    }, 500);
+            addClass(livesAndHeart, "visable");
+            addClass(playBtn, "display--none");
+
+            if (screenWidth > 900) {
+                loopThroughArrAndAddClass(allLetters, "visable");
+                randomlyPositionArrItems(allLetters);
+            } else {
+                removeClass(input, "display--none");
+            }
+        }, 500);
+    }, 200);
 });
 
 if (screenWidth >= 900)
@@ -155,18 +178,15 @@ if (screenWidth >= 900)
             ////
             ////
             if (word.includes(guessedLetter))
-                ////
-                ////
                 for (let i = 0; i < word.length; i++) {
                     if (word[i] === guessedLetter) {
+                        correctAudio.play();
                         underlinesArr[i] = word[i];
                         numOfcorrecGuesses++;
                         replaceUnderlinesIfCorrectAnswers();
                         ////
                         ////
                         if (numOfcorrecGuesses === word.length) {
-                            removeClass(playAgainBtn, "display--none");
-                            addClass(winningAnimation, "pyro");
                             displayCondition("win");
                             refreshPageOnclickToPlayAgain(playAgainBtn);
                             loopThroughArrAndAddClass(
@@ -177,6 +197,7 @@ if (screenWidth >= 900)
                     }
                 }
             else {
+                incorrectAudio.play();
                 addClass(images[numbOflivesLeft - 1], "visable");
                 addAnimation(livesAndHeart, "wobble");
                 setTimeout(resetAnimation, 1000, livesAndHeart, "wobble");
@@ -185,9 +206,6 @@ if (screenWidth >= 900)
                 ////
                 ////
                 if (numbOflivesLeft === 0) {
-                    loopThroughArrAndAddClass(allLetters, "display--none");
-                    removeClass(images[1], "visable");
-                    removeClass(playAgainBtn, "display--none");
                     displayCondition("loose");
                     refreshPageOnclickToPlayAgain(playAgainBtn);
                 }
@@ -209,21 +227,20 @@ else if (screenWidth <= 900) {
             } else if (word.includes(guessedLetter))
                 for (let i = 0; i < word.length; i++) {
                     if (word[i] === guessedLetter) {
+                        correctAudio.play();
                         underlinesArr[i] = word[i];
                         numOfcorrecGuesses++;
                         replaceUnderlinesIfCorrectAnswers();
                         ////
                         ////
                         if (numOfcorrecGuesses === word.length) {
-                            addClass(input, "display--none");
-                            removeClass(playAgainBtn, "display--none");
-                            addClass(winningAnimation, "pyro");
                             displayCondition("win");
                             refreshPageOnclickToPlayAgain(playAgainBtn);
                         }
                     }
                 }
             else {
+                incorrectAudio.play();
                 addClass(images[numbOflivesLeft - 1], "visable");
                 addAnimation(livesAndHeart, "wobble");
                 setTimeout(resetAnimation, 1000, livesAndHeart, "wobble");
@@ -232,10 +249,8 @@ else if (screenWidth <= 900) {
                 ////
                 ////
                 if (numbOflivesLeft === 0) {
-                    addClass(input, "display--none");
-                    removeClass(images[1], "visable");
-                    removeClass(playAgainBtn, "display--none");
                     displayCondition("loose");
+                    addClass(input, "display--none");
                     refreshPageOnclickToPlayAgain(playAgainBtn);
                 }
             }
