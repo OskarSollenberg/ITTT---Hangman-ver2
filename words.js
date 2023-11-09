@@ -56,6 +56,5 @@ export let words = [
     "Sunshine",
     "Holidays",
     "Barbeque",
-    "Ice cream",
     "Waterpark",
 ];

@@ -2,8 +2,6 @@
 import { words } from "./words.js";
 
 // ANIMATIONS
-document.documentElement.style.setProperty("--animate-duration", "1.5s");
-
 const winningAnimation = document.getElementById("pyro");
 
 // LIVES
@@ -23,8 +21,6 @@ const card = document.querySelector("#card");
 const input = document.getElementById("userInput");
 
 const screenWidth = window.innerWidth;
-
-const wrapper = document.querySelector(".content__wrapper ");
 
 // EXECUTIONS AND IF STATEMENTS
 let numOfcorrecGuesses = 0;
@@ -118,9 +114,6 @@ function guessedBefore(element) {
     }
 }
 
-// PLAY BTN / RESET GAMEBOARD
-// playBtn.addEventListener("click", clickToPlay);
-
 playBtn.addEventListener("click", function () {
     var node = this;
     addAnimation(images[0], "bounceOut");
@@ -128,7 +121,7 @@ playBtn.addEventListener("click", function () {
     addAnimation(images[3], "bounceOut");
     addAnimation(images[4], "bounceOut");
     ////
-    setTimeout(resetAnimation, 3000, wrapper, "bounceOut");
+    ////
     setTimeout(function () {
         node.classList.remove("open");
         createUnderlines();
@@ -153,29 +146,6 @@ playBtn.addEventListener("click", function () {
         }
     }, 500);
 });
-
-// function clickToPlay() {
-//     removeClass(images[0], "visable");
-//     removeClass(images[2], "visable");
-//     removeClass(images[3], "visable");
-//     removeClass(images[4], "visable");
-
-//     addClass(livesAndHeart, "visable");
-//     addClass(playBtn, "display--none");
-
-//     createUnderlines();
-//     replaceUnderlinesIfCorrectAnswers();
-
-//     if (screenWidth > 900) {
-//         loopThroughArrAndAddClass(allLetters, "visable");
-//         randomlyPositionArrItems(allLetters);
-//         overlayCheck();
-//     } else {
-//         removeClass(input, "display--none");
-//     }
-// }
-
-// IF STATEMENTS
 
 if (screenWidth >= 900)
     for (let i = 0; i < allLetters.length; i++) {

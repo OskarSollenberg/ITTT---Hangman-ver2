@@ -1,26 +1,18 @@
 # Hangman
+
 Hangman Game **If_This_Than_That(Javascript)**-module at Hyper Island
 
-Hi, This is a beginner project i did at Hyper Island where im currently studiying to become a Front End Developer. This was a game i worked on and of on during 2 days and it is the first projet i have ever done in javascript. It was very fun but also challanging. I spend about 90% googling how to do stuff and 10% coding but that made me learn alot. Hope you like it! 
+Hi, This is a beginner project i did at Hyper Island where im currently studiying to become a Front End Developer. This was a game i worked on and of on during 2 days and it is the first projet i have ever done in javascript. It was very fun but also challanging. I spend about 90% googling how to do stuff and 10% coding but that made me learn alot. Hope you like it!
 
 <img width="200" height="250" alt="Screenshot 2023-11-05 at 22 14 52" src="https://github.com/OskarSollenberg/fed25-fundamentals-mtv/assets/122973984/5733d3d4-3de9-46c0-bd3b-e6ab8fa9f561">
 
-
 <img width="200" height="250" alt="Screenshot 2023-11-05 at 22 15 16" src="https://github.com/OskarSollenberg/fed25-fundamentals-mtv/assets/122973984/9a52a3b4-f59f-4e50-a53b-785068e29ad2">
-    
 
 <img width="200" height="250" alt="Screenshot 2023-11-05 at 22 15 28" src="https://github.com/OskarSollenberg/fed25-fundamentals-mtv/assets/122973984/cde8578a-b823-400e-9a2d-e9f6b4aa6495">
 
-
 <img  width="200" height="250" alt="Screenshot 2023-11-05 at 22 15 44" src="https://github.com/OskarSollenberg/fed25-fundamentals-mtv/assets/122973984/c2b66878-7bc6-456c-bd0b-27b2c9c4424e">
 
-
-
-
-
-
 ### Languages and Tools:
-
 
 <img align="left" alt="HTML5" width="26px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" style="padding-right:10px;" />
 <img align="left" alt="CSS3" width="26px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" style="padding-right:10px;" />
@@ -34,19 +26,20 @@ Hi, This is a beginner project i did at Hyper Island where im currently studiyin
 <br />
 
 ---
+
 ### What I learned:
 
-- Javascript Variables, Booleans, Arrays, Functions...
+-   Javascript Variables, Booleans, Arrays, Functions...
 
-- Learning Javascript built in methods/objects. 
+-   Learning Javascript built in methods/objects.
 
-- DOM-manipulation
+-   DOM-manipulation
 
-- Practicing my designing skills. 
+-   Practicing my designing skills.
 
-- Better understanding of game-logic and working with If-statements in Javascript.
+-   Better understanding of game-logic and working with If-statements in Javascript.
 
-- Responsiveness using HTML, and CSS.
+-   Responsiveness using HTML, and CSS.
 
 <!--STRAT_SECTION:code-->
 
@@ -139,4 +132,3 @@ input.addEventListener("keypress", function (press) {
 <a href="https://www.linkedin.com/in/thomas-guibert" target="_blank"><img alt="LinkedIn" src="https://img.shields.io/badge/linkedin-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white" /></a>
 <a href="https://www.instagram.com/mokkapps/"><img src="https://img.shields.io/badge/instagram-%23E4405F.svg?&style=for-the-badge&logo=instagram&logoColor=white"></a>
 </p>
-
