@@ -147,7 +147,9 @@ body {
     }
 }
 .letter {
-    transition: top 2s ease 0s;
+    color: rgb(228, 103, 0)
+    top: 350px;
+    left: 750px;
     transition: all 1s;
     z-index: 500;
     position: absolute;

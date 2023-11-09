@@ -45,10 +45,10 @@ function loopThroughArrAndAddClass(element, className) {
 function randomlyPositionArrItems(array) {
     for (let i = 0; i < allLetters.length; i++) {
         let top = Math.floor(Math.random() * 70) + 10;
-        let left = Math.floor(Math.random() * 70) + 10;
+        let left = Math.floor(Math.random() * 80) + 10;
 
-        array[i].style.trasition = top + "%";
-        array[i].style.transform = left + "%";
+        array[i].style.top = top + "vh";
+        array[i].style.left = left + "vw";
     }
 }
 function addAnimation(variable, animation) {
