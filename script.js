@@ -134,7 +134,6 @@ playBtn.addEventListener("click", function () {
     var node = this;
 
     popAudio.play();
-    setTimeout(function () {
         addAnimation(playBtn, "bounceOut");
         addAnimation(images[0], "bounceOut");
         addAnimation(images[2], "bounceOut");
@@ -167,7 +166,6 @@ playBtn.addEventListener("click", function () {
                 removeClass(input, "display--none");
             }
         }, 500);
-    }, 200);
 });
 
 if (screenWidth >= 900)
