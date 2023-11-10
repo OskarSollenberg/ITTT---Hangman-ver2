@@ -60,7 +60,8 @@ Hi, This is a beginner project i did at Hyper Island where im currently studiyin
 **Biggest challanges:**
 - Keeping the code dry.
 - Understanding how to work with global and locally scoped variables.
-- Understanding if it´s better to start with modifierclasses like "display--none" in HTML to later on Add or Remove them. 
+- Understanding if it´s better to start with modifierclasses like "display--none" in HTML to later on Add or Remove them.
+- Audio delay
 
 - Placing letters randomly but within a certain range.
 ```js
