@@ -134,38 +134,38 @@ playBtn.addEventListener("click", function () {
     var node = this;
 
     popAudio.play();
-        addAnimation(playBtn, "bounceOut");
-        addAnimation(images[0], "bounceOut");
-        addAnimation(images[2], "bounceOut");
-        addAnimation(images[3], "bounceOut");
-        addAnimation(images[4], "bounceOut");
-        ////
-        ////
-        setTimeout(function () {
-            node.classList.remove("open");
-            createUnderlines();
-            replaceUnderlinesIfCorrectAnswers();
-            resetAnimation(images[0], "bounceOut");
-            resetAnimation(images[2], "bounceOut");
-            resetAnimation(images[3], "bounceOut");
-            resetAnimation(images[4], "bounceOut");
-            removeClass(images[0], "visable");
-            removeClass(images[2], "visable");
-            removeClass(images[3], "visable");
-            removeClass(images[4], "visable");
+    addAnimation(playBtn, "bounceOut");
+    addAnimation(images[0], "bounceOut");
+    addAnimation(images[2], "bounceOut");
+    addAnimation(images[3], "bounceOut");
+    addAnimation(images[4], "bounceOut");
+    ////
+    ////
+    setTimeout(function () {
+        node.classList.remove("open");
+        createUnderlines();
+        replaceUnderlinesIfCorrectAnswers();
+        resetAnimation(images[0], "bounceOut");
+        resetAnimation(images[2], "bounceOut");
+        resetAnimation(images[3], "bounceOut");
+        resetAnimation(images[4], "bounceOut");
+        removeClass(images[0], "visable");
+        removeClass(images[2], "visable");
+        removeClass(images[3], "visable");
+        removeClass(images[4], "visable");
 
-            addAnimation(livesAndHeart, "animate__flash");
+        addAnimation(livesAndHeart, "animate__flash");
 
-            addClass(livesAndHeart, "visable");
-            addClass(playBtn, "display--none");
+        addClass(livesAndHeart, "visable");
+        addClass(playBtn, "display--none");
 
-            if (screenWidth > 900) {
-                loopThroughArrAndAddClass(allLetters, "visable");
-                randomlyPositionArrItems(allLetters);
-            } else {
-                removeClass(input, "display--none");
-            }
-        }, 500);
+        if (screenWidth > 900) {
+            loopThroughArrAndAddClass(allLetters, "visable");
+            randomlyPositionArrItems(allLetters);
+        } else {
+            removeClass(input, "display--none");
+        }
+    }, 500);
 });
 
 if (screenWidth >= 900)
