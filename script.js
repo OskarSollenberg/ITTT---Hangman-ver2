@@ -1,28 +1,29 @@
 "use strict";
 import { words } from "./words.js";
 
-// ANIMATIONS
-const winningAnimation = document.getElementById("pyro");
-
-// LIVES
-const lives = document.getElementById("life");
-const livesAndHeart = document.querySelector(".lives");
-
-// BUTTONS
+// Btns
 const playBtn = document.getElementById("btn");
 const playAgainBtn = document.getElementById("playAgainBtn");
 
-// IMAGES
-const images = document.querySelectorAll(".img");
-
-// LETTERS
-const allLetters = document.querySelectorAll(".letter");
-const card = document.querySelector("#card");
+// Inputs
 const input = document.getElementById("userInput");
+const allLetters = document.querySelectorAll(".letter");
 
+// Lives-element
+const lives = document.getElementById("life");
+const livesAndHeart = document.querySelector(".lives");
+
+// For measuring screenSizes
+const card = document.querySelector("#card");
 const screenWidth = window.innerWidth;
 
-// AUDIO
+// Displaying answer
+let answer = document.getElementById("answer");
+let underlines = ["Creating empty array"];
+underlines = [];
+
+// Assets
+const allImages = document.querySelectorAll(".img");
 const musiclist = {
     playBtnSound: new Audio("audio/pop.wav"),
     incorrectAudio: new Audio("audio/wrong.m4a"),
@@ -31,49 +32,33 @@ const musiclist = {
     winningMusic: new Audio("audio/winningMusic.mp3"),
 };
 
-// EXECUTIONS AND IF STATEMENTS
-
-// ARRAYS
-let underlinesArr = [1, 2, 3, 4, 5];
-underlinesArr = [];
-
-let word = "";
-function randWord() {
-    word = words[Math.floor(Math.random() * words.length)];
-    word = word.toUpperCase();
-    return word;
-}
-randWord();
-console.log(word);
-
-// ARRAY FUNCTIONS
-function arrAddClass(array, className) {
+// Array Functions
+function addClassToItemsInArr(array, className) {
     for (let i = 0; i < array.length; i++) {
         array[i].classList.add(className);
     }
 }
-function arrAddAnimation(array, animation) {
+function addAnimationToItemsInArr(array, animation) {
     for (let i = 0; i < array.length; i++) {
         array[i].classList.add(animation);
     }
 }
-function arrRemoveClass(array, className) {
+function removeClassToItemsInArr(array, className) {
     for (let i = 0; i < array.length; i++) {
         array[i].classList.remove(className);
     }
 }
-function arrRemoveAnimation(array, animation) {
+function removeAnimationToItemsInArr(array, animation) {
     for (let i = 0; i < array.length; i++) {
         array[i].classList.remove(animation);
     }
 }
-
-//--------------
+// Single element Functions
 function addClass(element, className) {
     element.classList.add(className);
 }
-function addAnimation(variable, animation) {
-    variable.classList.add(animation);
+function addAnimation(element, animation) {
+    element.classList.add(animation);
 }
 function removeClass(element, className) {
     element.classList.remove(className);
@@ -82,29 +67,53 @@ function removeAnimation(element, animation) {
     element.classList.remove(animation);
 }
 
-function refreshPageOnClick(element) {
-    element.addEventListener("click", function () {
-        location.reload();
-    });
+// On PlayBtn-click
+let word = "";
+function randWord() {
+    word = words[Math.floor(Math.random() * words.length)];
+    word = word.toUpperCase();
+    return word;
 }
-function resetValue(element) {
-    element.value = "";
-}
+function clickPlayBtn() {
+    let imagesToAnimate = [
+        allImages[0],
+        allImages[2],
+        allImages[3],
+        allImages[4],
+    ];
+    musiclist.playBtnSound.play();
+    addAnimation(playBtn, "bounceOut");
+    addAnimationToItemsInArr(imagesToAnimate, "bounceOut");
+    randWord();
+    console.log(word);
+    ////
+    setTimeout(function () {
+        createUnderlines();
+        replaceUnderlinesIfCorrectAnswers();
+        removeAnimationToItemsInArr(imagesToAnimate, "bounceOut");
+        removeClassToItemsInArr(imagesToAnimate, "visable");
+        addAnimation(livesAndHeart, "animate__flash");
+        addClass(livesAndHeart, "visable");
+        addClass(playBtn, "display--none");
 
-// ONE-TIME-USE FUNCTIONS
+        if (screenWidth > 900) {
+            addClassToItemsInArr(allLetters, "visable");
+            randomlyPositionLetters(allLetters);
+        } else {
+            removeClass(input, "display--none");
+        }
+    }, 500);
+}
 function createUnderlines() {
     for (let i = 0; i < word.length; i++) {
-        underlinesArr.push(" _ ");
+        underlines.push(" _ ");
     }
-}
-function replaceUnderlinesIfCorrectAnswers() {
-    answer.innerHTML = underlinesArr.join("");
 }
 function updateNumbOflivesLeft() {
     lives.innerHTML = numbOflivesLeft;
 }
 function randomlyPositionLetters(array) {
-    for (let i = 0; i < allLetters.length; i++) {
+    for (let i = 0; i < array.length; i++) {
         const x1 = card.getBoundingClientRect().x;
         const x2 = x1 + card.getBoundingClientRect().width;
         const width = x1 - 30;
@@ -120,61 +129,17 @@ function randomlyPositionLetters(array) {
         array[i].style.left = leftPercentage + "vw";
     }
 }
-function displayWinCondition() {
-    underlinesArr = ["YOU WIN!!"];
-    musiclist.winningMusic.play();
-    addClass(input, "display--none");
-    removeClass(playAgainBtn, "display--none");
-    addClass(winningAnimation, "pyro");
-    replaceUnderlinesIfCorrectAnswers();
-}
-function displayLosingCondition() {
-    underlinesArr = ["YOU LOSE!!"];
-    musiclist.losingMusic.play();
-    arrAddClass(allLetters, "display--none");
-    removeClass(images[1], "visable");
-    removeClass(playAgainBtn, "display--none");
-    addAnimation(livesAndHeart, "animate__hinge");
-    replaceUnderlinesIfCorrectAnswers();
-    addClass(input, "display--none");
-}
-
-let imageAnimationArray = [images[0], images[2], images[3], images[4]];
-playBtn.addEventListener("click", function () {
-    var node = this;
-    musiclist.playBtnSound.play();
-    addAnimation(playBtn, "bounceOut");
-    arrAddAnimation(imageAnimationArray, "bounceOut");
-    ////
-    setTimeout(function () {
-        node.classList.remove("open");
-        createUnderlines();
-        replaceUnderlinesIfCorrectAnswers();
-        arrRemoveAnimation(imageAnimationArray, "bounceOut");
-        arrRemoveClass(imageAnimationArray, "visable");
-        addAnimation(livesAndHeart, "animate__flash");
-        addClass(livesAndHeart, "visable");
-        addClass(playBtn, "display--none");
-
-        if (screenWidth > 900) {
-            arrAddClass(allLetters, "visable");
-            randomlyPositionLetters(allLetters);
-        } else {
-            removeClass(input, "display--none");
-        }
-    }, 500);
-});
-
 function checkScreenSize() {
     if (screenWidth >= 900) {
-        ifUserInputLetterClick();
+        ifUserInputIsLetterClick();
     } else {
-        ifUserinputKeypress();
+        ifUserinputIsKeypress();
     }
 }
 checkScreenSize();
 
-function ifUserInputLetterClick() {
+// After getting User-input
+function ifUserInputIsLetterClick() {
     for (let i = 0; i < allLetters.length; i++) {
         allLetters[i].addEventListener("click", function () {
             let guessedLetter = allLetters[i].textContent;
@@ -183,7 +148,7 @@ function ifUserInputLetterClick() {
         });
     }
 }
-function ifUserinputKeypress() {
+function ifUserinputIsKeypress() {
     input.addEventListener("keypress", function (e) {
         if (e.key === "Enter") {
             let inputValue = input.value;
@@ -192,13 +157,15 @@ function ifUserinputKeypress() {
         }
     });
 }
+function replaceUnderlinesIfCorrectAnswers() {
+    answer.innerHTML = underlines.join("");
+}
 
+// Game Logic
 let numOfcorrecGuesses = 0;
 let numbOflivesLeft = 5;
 let allGuessedLetters = "";
-
 function makeGuess(guessedLetter) {
-    console.log(guessedLetter);
     if (allGuessedLetters.includes(guessedLetter)) {
         addAnimation(input, "wobble");
         setTimeout(removeAnimation, 1000, input, "wobble");
@@ -208,22 +175,21 @@ function makeGuess(guessedLetter) {
         for (let i = 0; i < word.length; i++) {
             if (word[i] === guessedLetter) {
                 musiclist.correctAudio.play();
-                underlinesArr[i] = word[i];
+                underlines[i] = word[i];
                 numOfcorrecGuesses++;
                 replaceUnderlinesIfCorrectAnswers();
                 ////
                 ////
                 if (numOfcorrecGuesses === word.length) {
                     displayWinCondition();
-                    refreshPageOnClick(playAgainBtn);
-                    arrAddClass(allLetters, "display--none");
+                    addClassToItemsInArr(allLetters, "display--none");
                 }
             }
         }
     ////
     else {
         musiclist.incorrectAudio.play();
-        addClass(images[numbOflivesLeft - 1], "visable");
+        addClass(allImages[numbOflivesLeft - 1], "visable");
         addAnimation(livesAndHeart, "wobble");
         setTimeout(removeAnimation, 1000, livesAndHeart, "wobble");
         numbOflivesLeft--;
@@ -232,12 +198,39 @@ function makeGuess(guessedLetter) {
         ////
         if (numbOflivesLeft === 0) {
             displayLosingCondition();
-            refreshPageOnClick(playAgainBtn);
         }
     }
-    if (ifUserinputKeypress) {
-        resetValue(input);
+    if (ifUserinputIsKeypress) {
+        input.value = "";
         allGuessedLetters += guessedLetter;
-        console.log(allGuessedLetters);
     }
 }
+// winning
+function displayWinCondition() {
+    const winningAnimation = document.getElementById("pyro");
+    underlines = ["YOU WIN!!"];
+    musiclist.winningMusic.play();
+    addClass(input, "display--none");
+    removeClass(playAgainBtn, "display--none");
+    addClass(winningAnimation, "pyro");
+    replaceUnderlinesIfCorrectAnswers();
+}
+// loosing
+function displayLosingCondition() {
+    underlines = ["YOU LOSE!!"];
+    musiclist.losingMusic.play();
+    addClassToItemsInArr(allLetters, "display--none");
+    removeClass(allImages[1], "visable");
+    removeClass(playAgainBtn, "display--none");
+    addAnimation(livesAndHeart, "animate__hinge");
+    replaceUnderlinesIfCorrectAnswers();
+    addClass(input, "display--none");
+}
+
+// EventListeners
+playBtn.addEventListener("click", function () {
+    clickPlayBtn();
+});
+playAgainBtn.addEventListener("click", function () {
+    location.reload();
+});
