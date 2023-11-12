@@ -1,15 +1,15 @@
 "use strict";
 import { words } from "./words.js";
 
-// Btns
+// Buttons
 const playBtn = document.getElementById("btn");
 const playAgainBtn = document.getElementById("playAgainBtn");
 
-// Inputs
+// Inputs (2 conditions dependent on screensize)
 const input = document.getElementById("userInput");
 const allLetters = document.querySelectorAll(".letter");
 
-// Lives-element
+// Heart and number of lives
 const lives = document.getElementById("life");
 const livesAndHeart = document.querySelector(".lives");
 
@@ -17,13 +17,16 @@ const livesAndHeart = document.querySelector(".lives");
 const card = document.querySelector("#card");
 const screenWidth = window.innerWidth;
 
-// Displaying answer
-let answer = document.getElementById("answer");
-let underlines = ["Creating empty array"];
-underlines = [];
-
-// Assets
+// ASSETS
+// Images
 const allImages = document.querySelectorAll(".img");
+const imagesToAnimateOnClickPlay = [
+    allImages[0],
+    allImages[2],
+    allImages[3],
+    allImages[4],
+];
+// Music
 const musiclist = {
     playBtnSound: new Audio("audio/pop.wav"),
     incorrectAudio: new Audio("audio/wrong.m4a"),
@@ -31,6 +34,15 @@ const musiclist = {
     losingMusic: new Audio("audio/losingMusic.mp3"),
     winningMusic: new Audio("audio/winningMusic.mp3"),
 };
+// Element that displays answer
+let answer = document.getElementById("answer");
+let underlines = ["Creating empty array"];
+underlines = [];
+
+let word = "";
+let numOfcorrecGuesses = 0;
+let numbOflivesLeft = 5;
+let allGuessedLetters = "";
 
 // Array Functions
 function addClassToItemsInArr(array, className) {
@@ -68,41 +80,36 @@ function removeAnimation(element, animation) {
 }
 
 // On PlayBtn-click
-let word = "";
-function randWord() {
-    word = words[Math.floor(Math.random() * words.length)];
-    word = word.toUpperCase();
-    return word;
-}
 function clickPlayBtn() {
-    let imagesToAnimate = [
-        allImages[0],
-        allImages[2],
-        allImages[3],
-        allImages[4],
-    ];
     musiclist.playBtnSound.play();
     addAnimation(playBtn, "bounceOut");
-    addAnimationToItemsInArr(imagesToAnimate, "bounceOut");
-    randWord();
+    addAnimationToItemsInArr(imagesToAnimateOnClickPlay, "bounceOut");
+    generateRandWord();
+    checkScreenSize();
+
     console.log(word);
     ////
     setTimeout(function () {
         createUnderlines();
         replaceUnderlinesIfCorrectAnswers();
-        removeAnimationToItemsInArr(imagesToAnimate, "bounceOut");
-        removeClassToItemsInArr(imagesToAnimate, "visable");
+        removeAnimationToItemsInArr(imagesToAnimateOnClickPlay, "bounceOut");
+        removeClassToItemsInArr(imagesToAnimateOnClickPlay, "visable");
         addAnimation(livesAndHeart, "animate__flash");
         addClass(livesAndHeart, "visable");
         addClass(playBtn, "display--none");
 
         if (screenWidth > 900) {
             addClassToItemsInArr(allLetters, "visable");
-            randomlyPositionLetters(allLetters);
+            randomlyPositionLetters();
         } else {
             removeClass(input, "display--none");
         }
     }, 500);
+}
+function generateRandWord() {
+    word = words[Math.floor(Math.random() * words.length)];
+    word = word.toUpperCase();
+    return word;
 }
 function createUnderlines() {
     for (let i = 0; i < word.length; i++) {
@@ -112,8 +119,8 @@ function createUnderlines() {
 function updateNumbOflivesLeft() {
     lives.innerHTML = numbOflivesLeft;
 }
-function randomlyPositionLetters(array) {
-    for (let i = 0; i < array.length; i++) {
+function randomlyPositionLetters() {
+    for (let i = 0; i < allLetters.length; i++) {
         const x1 = card.getBoundingClientRect().x;
         const x2 = x1 + card.getBoundingClientRect().width;
         const width = x1 - 30;
@@ -125,21 +132,20 @@ function randomlyPositionLetters(array) {
 
         let top = Math.floor(Math.random() * 85);
 
-        array[i].style.top = top + "vh";
-        array[i].style.left = leftPercentage + "vw";
+        allLetters[i].style.top = top + "vh";
+        allLetters[i].style.left = leftPercentage + "vw";
     }
 }
 function checkScreenSize() {
     if (screenWidth >= 900) {
-        ifUserInputIsLetterClick();
+        inputUsingClickLetters();
     } else {
-        ifUserinputIsKeypress();
+        inputUsingEnter();
     }
 }
-checkScreenSize();
 
 // After getting User-input
-function ifUserInputIsLetterClick() {
+function inputUsingClickLetters() {
     for (let i = 0; i < allLetters.length; i++) {
         allLetters[i].addEventListener("click", function () {
             let guessedLetter = allLetters[i].textContent;
@@ -148,7 +154,7 @@ function ifUserInputIsLetterClick() {
         });
     }
 }
-function ifUserinputIsKeypress() {
+function inputUsingEnter() {
     input.addEventListener("keypress", function (e) {
         if (e.key === "Enter") {
             let inputValue = input.value;
@@ -160,52 +166,7 @@ function ifUserinputIsKeypress() {
 function replaceUnderlinesIfCorrectAnswers() {
     answer.innerHTML = underlines.join("");
 }
-
-// Game Logic
-let numOfcorrecGuesses = 0;
-let numbOflivesLeft = 5;
-let allGuessedLetters = "";
-function makeGuess(guessedLetter) {
-    if (allGuessedLetters.includes(guessedLetter)) {
-        addAnimation(input, "wobble");
-        setTimeout(removeAnimation, 1000, input, "wobble");
-    }
-    ////
-    else if (word.includes(guessedLetter))
-        for (let i = 0; i < word.length; i++) {
-            if (word[i] === guessedLetter) {
-                musiclist.correctAudio.play();
-                underlines[i] = word[i];
-                numOfcorrecGuesses++;
-                replaceUnderlinesIfCorrectAnswers();
-                ////
-                ////
-                if (numOfcorrecGuesses === word.length) {
-                    displayWinCondition();
-                    addClassToItemsInArr(allLetters, "display--none");
-                }
-            }
-        }
-    ////
-    else {
-        musiclist.incorrectAudio.play();
-        addClass(allImages[numbOflivesLeft - 1], "visable");
-        addAnimation(livesAndHeart, "wobble");
-        setTimeout(removeAnimation, 1000, livesAndHeart, "wobble");
-        numbOflivesLeft--;
-        updateNumbOflivesLeft();
-        ////
-        ////
-        if (numbOflivesLeft === 0) {
-            displayLosingCondition();
-        }
-    }
-    if (ifUserinputIsKeypress) {
-        input.value = "";
-        allGuessedLetters += guessedLetter;
-    }
-}
-// winning
+// winning condition
 function displayWinCondition() {
     const winningAnimation = document.getElementById("pyro");
     underlines = ["YOU WIN!!"];
@@ -215,7 +176,7 @@ function displayWinCondition() {
     addClass(winningAnimation, "pyro");
     replaceUnderlinesIfCorrectAnswers();
 }
-// loosing
+// loosing consdition
 function displayLosingCondition() {
     underlines = ["YOU LOSE!!"];
     musiclist.losingMusic.play();
@@ -226,11 +187,57 @@ function displayLosingCondition() {
     replaceUnderlinesIfCorrectAnswers();
     addClass(input, "display--none");
 }
-
-// EventListeners
-playBtn.addEventListener("click", function () {
-    clickPlayBtn();
-});
+// Game Logic
+function makeGuess(guessedLetter) {
+    // If guessing an allready guessed letter
+    if (allGuessedLetters.includes(guessedLetter)) {
+        addAnimation(input, "wobble");
+        setTimeout(removeAnimation, 1000, input, "wobble");
+    }
+    ////
+    // Guessing correct letter
+    else if (word.includes(guessedLetter))
+        for (let i = 0; i < word.length; i++) {
+            if (word[i] === guessedLetter) {
+                musiclist.correctAudio.play();
+                underlines[i] = word[i];
+                numOfcorrecGuesses++;
+                replaceUnderlinesIfCorrectAnswers();
+                ////
+                ////
+                // Winning
+                if (numOfcorrecGuesses === word.length) {
+                    displayWinCondition();
+                    addClassToItemsInArr(allLetters, "display--none");
+                }
+            }
+        }
+    ////
+    else {
+        // Guessing incorrect letter
+        musiclist.incorrectAudio.play();
+        addClass(allImages[numbOflivesLeft - 1], "visable");
+        addAnimation(livesAndHeart, "wobble");
+        setTimeout(removeAnimation, 1000, livesAndHeart, "wobble");
+        numbOflivesLeft--;
+        updateNumbOflivesLeft();
+        ////
+        ////
+        // losing
+        if (numbOflivesLeft === 0) {
+            displayLosingCondition();
+        }
+    }
+    // resetting input value
+    if (inputUsingEnter) {
+        input.value = "";
+        allGuessedLetters += guessedLetter;
+    }
+}
+//* EVENTLISTENERS
+// playAgain button
 playAgainBtn.addEventListener("click", function () {
     location.reload();
 });
+// playn button
+playBtn.addEventListener("click", clickPlayBtn);
